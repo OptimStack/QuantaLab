@@ -1,0 +1,21 @@
+FROM python:3.11-slim
+
+# Install quantum SDKs
+RUN pip install --no-cache-dir \
+    qiskit>=1.0.0 \
+    qiskit-aer>=0.13.0 \
+    pennylane>=0.35.0 \
+    cirq>=1.3.0 \
+    numpy \
+    && rm -rf /root/.cache
+
+# Create non-root user
+RUN useradd -m -s /bin/bash sandbox
+
+# Set working directory
+WORKDIR /sandbox
+
+# Switch to non-root user
+USER sandbox
+
+# No default CMD — runner.py provides the command

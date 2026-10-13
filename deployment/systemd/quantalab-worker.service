@@ -1,0 +1,15 @@
+[Unit]
+Description=QuantaLab Celery Workers
+After=network.target redis.service
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/quantalab/backend
+EnvironmentFile=/opt/quantalab/backend/.env
+ExecStart=/opt/quantalab/venv/bin/celery -A app.core.celery_app worker --loglevel=info --concurrency=2
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
